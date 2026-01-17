@@ -12,13 +12,13 @@ app.use(cors());
 app.use("/uploads", express.static("uploads"));
 
 
-app.get("/health", (req, res) => {
+app.get("api/health", (req, res) => {
   console.log("health check");
   res.json("success");
 });
-app.use("/auth", authRoutes);
+app.use("api/auth", authRoutes);
 app.use(verifyToken)
-app.use("/employee", empRoutes);
+app.use("api/employee", empRoutes);
 
 (async () => {
   try {
