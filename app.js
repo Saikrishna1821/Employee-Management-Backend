@@ -9,13 +9,31 @@ const app = express();
 const PORT = process.env.PORT;
 app.use(express.json());
 
+const allowedOrigins = [
+  "http://localhost:5173"
+];
+
+
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://employee-management-8e8gpnuf4-saikrishna-mummadis-projects.vercel.app"
-  ],
+  origin(origin, callback) {
+    // Allow server-to-server, curl, postman
+    if (!origin) return callback(null, true);
+
+    // Allow localhost
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    // Allow ALL Vercel deployments since it is free version
+    if (origin.endsWith(".vercel.app")) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"));
+  },
   credentials: true
 }));
+
 app.use("/uploads", express.static("uploads"));
 
 
