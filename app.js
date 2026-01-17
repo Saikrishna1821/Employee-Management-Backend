@@ -8,7 +8,14 @@ const { verifyToken } = require("./middlewares/auth.middleware");
 const app = express();
 const PORT = process.env.PORT;
 app.use(express.json());
-app.use(cors());
+
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://employee-management-8e8gpnuf4-saikrishna-mummadis-projects.vercel.app"
+  ],
+  credentials: true
+}));
 app.use("/uploads", express.static("uploads"));
 
 
